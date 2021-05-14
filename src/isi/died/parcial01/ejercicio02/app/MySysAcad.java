@@ -2,6 +2,8 @@ package isi.died.parcial01.ejercicio02.app;
 
 import isi.died.parcial01.ejercicio02.dominio.*;
 
+import java.util.Collection;
+import java.util.List;
 
 
 public interface MySysAcad {
@@ -28,4 +30,22 @@ public interface MySysAcad {
 	public void inscribirAlumnoExamen(Docente d,Alumno a, Materia m);
 	
 
+	public default List<Examen>topNExamenes(Alumno a, Integer n, Integer nota){
+
+		List<isi.died.parcial01.ejercicio02.dominio.Examen> e2 = a.getExamenes();
+		List<Examen> e3;
+
+		for( Examen e : e2){
+			if(e.getNota() == nota){
+				e3.add(e);
+			}
+		}
+
+		// en teoria deberia poder ordenarlo aqui
+		Collection.sort(e, Examen.Comparators.nota);
+
+
+
+		return e3;
+	}
 }

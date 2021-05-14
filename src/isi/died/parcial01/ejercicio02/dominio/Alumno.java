@@ -13,6 +13,15 @@ public class Alumno {
 
 
 	private List<Inscripcion> materiasCursadas;
+
+	public List<isi.died.parcial01.ejercicio02.dominio.Examen> getExamenes() {
+		return examenes;
+	}
+
+	public void setExamenes(List<isi.died.parcial01.ejercicio02.dominio.Examen> examenes) {
+		this.examenes = examenes;
+	}
+
 	private List<Examen> examenes;
 	
 	public Alumno() {
