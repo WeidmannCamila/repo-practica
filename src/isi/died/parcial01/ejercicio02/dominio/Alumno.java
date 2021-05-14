@@ -10,6 +10,8 @@ public class Alumno {
 	private Integer id;
 	private String nombre;
 
+
+
 	private List<Inscripcion> materiasCursadas;
 	private List<Examen> examenes;
 	
@@ -47,6 +49,14 @@ public class Alumno {
 	public void addCursada(Inscripcion e) {
 		this.materiasCursadas.add(e);
 		e.setInscripto(this);
+	}
+
+	public List<isi.died.parcial01.ejercicio02.dominio.Inscripcion> getMateriasCursadas() {
+		return materiasCursadas;
+	}
+
+	public void setMateriasCursadas(List<isi.died.parcial01.ejercicio02.dominio.Inscripcion> materiasCursadas) {
+		this.materiasCursadas = materiasCursadas;
 	}
 
 }

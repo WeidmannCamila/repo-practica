@@ -1,5 +1,6 @@
 package isi.died.parcial01.ejercicio02.app;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,13 +35,38 @@ public class MySysAcadImpl implements MySysAcad {
 	
 
 	@Override
-	public void inscribirAlumnoCursada(Docente d, Alumno a, Materia m, Integer cicloLectivo) {
-		Inscripcion insc = new Inscripcion(cicloLectivo,Inscripcion.Estado.CURSANDO);
-		d.agregarInscripcion(insc);
-		a.addCursada(insc);
-		m.addInscripcion(insc);
+	public void inscribirAlumnoCursada(Docente d, Alumno a, Materia m, Integer cicloLectivo) throws profesorNoInscriptoException {
+
+		List<Docente> lista= m.docentes;
+		boolean aux= false;
+		for(Docente l: lista){
+			if(l.getNombre() == d.getNombre()){
+				aux= true;
+			}
+		}
+
+		if(!aux) {
+			throw new profesorNoInscriptoException("El profesor no pertenece a la materia");
+		} else {
+			Inscripcion insc = new Inscripcion(cicloLectivo,Inscripcion.Estado.CURSANDO);
+			d.agregarInscripcion(insc);
+			a.addCursada(insc);
+			m.addInscripcion(insc);
+
+		}
+
 		// DESCOMENTAR Y gestionar excepcion
-		// DB.guardar(insc);
+
+		try {
+			DB.guardar(insc);
+		} catch (IOException e){
+			e.printStackTrace();
+			throw new BaseDeDatosException();
+		}
+
+
+
+
 	}
 
 	@Override
@@ -50,8 +76,24 @@ public class MySysAcadImpl implements MySysAcad {
 		d.agregarExamen(e);
 		m.addExamen(e);
 		// DESCOMENTAR Y gestionar excepcion
-		// DB.guardar(e);
+		DB.guardar(e);
 	}
-	
+
+
+
+	public void registrarNota(Examen e, Integer nota){
+		Alumno a = e.getAlumno();
+		Inscripcion e1 = a.getMateriasCursadas(); // cree get de la lista en alumno
+
+		e.setNota(nota);
+		if (nota >= 6){
+			e1(e1.size()-1).setEstado(PROMOCIONADO);
+			System.out.println("Nota mayor a 6");
+		}
+
+	}
+
+
+
 
 }
